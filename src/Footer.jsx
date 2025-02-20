@@ -38,7 +38,7 @@ export default function Footer() {
               <br />
               Phone: (123) 456-7890
               <br />
-              Email: info@mebius.com
+              Email: nayashodani567@gmail.com
             </p>
           </div>
           <div className="w-full md:w-1/4">
