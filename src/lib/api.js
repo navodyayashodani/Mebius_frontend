@@ -6,7 +6,7 @@ export const Api = createApi({
   reducerPath: "Api",
   tagTypes: ["Products", "Categories"],
   baseQuery: fetchBaseQuery({ 
-    baseUrl: "fed-storefront-backend-harindi.vercel.app/api",
+    baseUrl: "https://fed-storefront-backend-harindi.vercel.app/api",
     prepareHeaders: async (headers) => {
       try {
         const token = await window.Clerk.session?.getToken();
