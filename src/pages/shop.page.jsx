@@ -29,6 +29,11 @@ function ShopPage() {
   const [selectedCategoryId, setSelectedCategoryId] = useState("ALL");
   const [sortOrder, setSortOrder] = useState("none");
 
+  // Add logging to see the data
+  console.log('Selected Category ID:', selectedCategoryId);
+  console.log('Products:', products);
+  console.log('Categories:', categories);
+
   if (isProductsLoading || isCategoriesLoading) {
     return (
       <main className="min-h-screen flex items-center justify-center">
@@ -51,17 +56,20 @@ function ShopPage() {
   // Filter products by category
   const filteredProducts = selectedCategoryId === "ALL"
     ? products
-    : products.filter((product) => product.categoryId === selectedCategoryId);
+    : products.filter((product) => {
+        // Compare the category ID instead of the whole object
+        return product.categoryId._id === selectedCategoryId;
+      });
 
   // Sort products by price
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
+  const sortedProducts = filteredProducts ? [...filteredProducts].sort((a, b) => {
     if (sortOrder === "asc") {
-      return a.price - b.price;
+      return parseFloat(a.price) - parseFloat(b.price);
     } else if (sortOrder === "desc") {
-      return b.price - a.price;
+      return parseFloat(b.price) - parseFloat(a.price);
     }
     return 0;
-  });
+  }) : [];
 
   return (
     <div className="bg-gray-50 min-h-screen ">
@@ -86,7 +94,8 @@ function ShopPage() {
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
                 <SelectContent>
-                  {[...categories, { _id: "ALL", name: "All" }].map((category) => (
+                  <SelectItem value="ALL">All Categories</SelectItem>
+                  {categories?.map((category) => (
                     <SelectItem 
                       key={category._id} 
                       value={category._id}

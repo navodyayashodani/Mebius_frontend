@@ -6,10 +6,10 @@ export const Api = createApi({
   reducerPath: "Api",
   tagTypes: ["Products", "Categories"],
   baseQuery: fetchBaseQuery({ 
-    baseUrl: "https://fed-storefront-backend-harindi.vercel.app/api",
+    baseUrl: "https://fed-storefront-backend-harindi.onrender.com/api/ ",
     prepareHeaders: async (headers) => {
       try {
-        const token = await window.Clerk.session?.getToken();
+        const token = await window.Clerk?.session?.getToken();
         if (token) {
           headers.set("Authorization", `Bearer ${token}`);
         }
@@ -33,6 +33,7 @@ export const Api = createApi({
     getOrder: builder.query({
       query: (id) => `orders/${id}`,
     }),
+    
     createOrder: builder.mutation({
       query: (body) => ({
         url: `orders`,
