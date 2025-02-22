@@ -97,6 +97,7 @@ function Products(props) {
             _id={category._id}
             selectedCategoryId={selectedCategoryId}
             name={category.name}
+            stock={category.stock}
             onTabClick={handleTabClick}
           />
         ))}

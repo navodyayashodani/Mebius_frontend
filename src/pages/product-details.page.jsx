@@ -98,6 +98,11 @@ function ProductDetailsPage() {
                   <p className="text-4xl font-bold text-primary">
                     ${parseFloat(product.price).toFixed(2)}
                   </p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className={`text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {product.stock > 0 ? `${product.stock} items in stock` : 'Out of stock'}
+                    </span>
+                  </div>
                   <p className="text-sm text-gray-500 mt-1">
                     Free shipping on orders over $100
                   </p>
@@ -126,13 +131,14 @@ function ProductDetailsPage() {
                 </div>
               </div>
 
-              {/* Add to Cart Button - Updated to match ProductCard */}
+              {/* Add to Cart Button - Updated to be disabled when out of stock */}
               <Button 
                 onClick={handleAddToCart}
                 className="w-full flex items-center justify-center gap-2 py-6 text-lg"
+                disabled={product.stock <= 0}
               >
                 <ShoppingCart className="h-5 w-5" />
-                Add to Cart
+                {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
               </Button>
             </div>
           </div>
