@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +24,6 @@ const formSchema = z.object({
   zip_code: z.string().min(1),
   phone: z.string().refine(
     (value) => {
-      // This regex checks for a basic international phone number format
       return /^\+?[1-9]\d{1,14}$/.test(value);
     },
     {
@@ -38,21 +38,26 @@ const ShippingAddressForm = ({ cart }) => {
   });
   const [createOrder, { isLoading, isError, data }] = useCreateOrderMutation();
   const navigate = useNavigate();
-  console.log(cart);
 
   function handleSubmit(values) {
+    const shippingAddress = {
+      line_1: values.line_1,
+      line_2: values.line_2,
+      city: values.city,
+      state: values.state,
+      zip_code: values.zip_code,
+      phone: values.phone,
+    };
+
     createOrder({
       items: cart,
-      shippingAddress: {
-        line_1: values.line_1,
-        line_2: values.line_2,
-        city: values.city,
-        state: values.state,
-        zip_code: values.zip_code,
-        phone: values.phone,
-      },
+      shippingAddress: shippingAddress,
     });
-    navigate("/shop/payment");
+
+    // Navigate to the checkout page and pass the shippingAddress as state
+    navigate("/shop/payment", {
+      state: { shippingAddress }, // Pass shippingAddress to the PaymentPage
+    });
   }
 
   return (
@@ -78,7 +83,7 @@ const ShippingAddressForm = ({ cart }) => {
               name="line_2"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Line 1</FormLabel>
+                  <FormLabel>Line 2</FormLabel>
                   <FormControl>
                     <Input placeholder="Main St" {...field} />
                   </FormControl>

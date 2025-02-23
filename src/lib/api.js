@@ -9,15 +9,16 @@ export const Api = createApi({
     baseUrl: "https://fed-storefront-backend-harindi.onrender.com/api/ ",
     prepareHeaders: async (headers) => {
       try {
+        // Get token asynchronously
         const token = await window.Clerk?.session?.getToken();
         if (token) {
           headers.set("Authorization", `Bearer ${token}`);
         }
-        return headers;
+        headers.set('Content-Type', 'application/json');
       } catch (error) {
         console.error("Error getting token:", error);
-        return headers;
       }
+      return headers;
     },
     credentials: 'include',
   }),
@@ -80,6 +81,47 @@ export const Api = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    createCheckoutSession: builder.mutation({
+      async queryFn({ items, shippingAddress }, _api, _extraOptions, baseQuery) {
+        try {
+          const token = await window.Clerk?.session?.getToken();
+    
+          if (!token) {
+            throw new Error("No authentication token available");
+          }
+    
+          console.log("Token:", token);
+          console.log("Items:", items);
+          console.log("Shipping Address:", shippingAddress);
+    
+          const result = await baseQuery({
+            url: `payments/create-checkout-session`,
+            method: "POST",
+            body: { items, shippingAddress },
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+    
+          if (result.error) {
+            console.error("Checkout session error:", result.error);
+            return { error: result.error };
+          }
+    
+          return { data: result.data };
+        } catch (error) {
+          console.error("Checkout session creation error:", error);
+          return {
+            error: {
+              status: 500,
+              data: { message: error.message || "Internal Server Error" },
+            },
+          };
+        }
+      },
+    }),
+    
   }),
 });
 
@@ -95,4 +137,5 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useCreateCheckoutSessionMutation,
 } = Api;
