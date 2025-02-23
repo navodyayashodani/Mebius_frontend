@@ -9,8 +9,7 @@ function Hero() {
           <span className="inline-block rounded-full px-2 py-1 text-xs w-fit bg-[#febc26]">WEEKLY DISCOUNT</span>
           <h1 className="text-5xl font-semibold leading-none">Premium Product Online Shop</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quos
-            suscipit est autem quia? Voluptatem?
+          Mebius is a leading e-commerce platform specializing in high-quality electronic products. From the latest gadgets to essential tech accessories, we provide a seamless shopping experience with secure payments and fast delivery. Explore top brands and upgrade your tech effortlessly with Mebius!
           </p>
           <a to="/shop" className="inline-block px-4 py-2 text-white font-medium bg-black rounded-md w-fit">
             Shop Now
