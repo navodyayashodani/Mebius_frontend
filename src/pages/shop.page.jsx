@@ -1,5 +1,5 @@
 import { useGetProductsQuery, useGetCategoriesQuery } from "@/lib/api";
-import ProductCards from "@/ProductCards";
+import ProductCards from "@/pages/Home/Components/ProductCards";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import {

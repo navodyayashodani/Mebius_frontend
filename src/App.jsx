@@ -1,6 +1,6 @@
-import Hero from "./Hero";
+import Hero from "./pages/Home/Components/Hero";
 import Navigation from "./Navigation";
-import Products from "./Products";
+import Products from "./pages/Home/Components/Products";
 
 
 

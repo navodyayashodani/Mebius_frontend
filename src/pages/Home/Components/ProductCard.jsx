@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 //import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "./lib/features/cartSlice";
+import { addToCart } from "../../../lib/features/cartSlice";
 import { Link } from "react-router-dom";
 function ProductCard(props) {
   //const [num, setNum] = useState(0);
@@ -12,20 +12,46 @@ function ProductCard(props) {
   const count = useSelector(state => state.counter.value);
   const dispatch = useDispatch()
 
-  const handleClick = (e) => {
+  /*const handleClick = (e) => {
     if (props.stock <= 0) {
       return;
     }
-    dispatch(addToCart({
+      
+     dispatch(addToCart({
       _id: props._id,
       name: props.name,
       price: props.price,
       image: props.image,
       description: props.description,
       stock: props.stock,
-    }));
+    }));*/
+      const handleClick = async () => {
+        if (props.stock <= 0) return;
+      
+        try {
+          const response = await fetch(`http://localhost:8000/api/products/${props._id}`); // Adjust if your backend route is different
+          const latestProduct = await response.json();
+      
+          if (latestProduct.stock <= 0) {
+            alert('Sorry, this product is now out of stock.');
+            return;
+          }
+   
     
-  };
+    
+          dispatch(addToCart({
+            _id: latestProduct._id,
+            name: latestProduct.name,
+            price: latestProduct.price,
+            image: latestProduct.image,
+            description: latestProduct.description,
+            stock: latestProduct.stock,
+          }));
+        } catch (error) {
+          console.error('Failed to fetch product stock:', error);
+          alert('An error occurred. Please try again later.');
+        }
+      };
 
   return (
     

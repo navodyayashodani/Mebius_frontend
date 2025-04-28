@@ -6,7 +6,7 @@ export const Api = createApi({
   reducerPath: "Api",
   tagTypes: ["Products", "Categories"],
   baseQuery: fetchBaseQuery({ 
-    baseUrl: "https://fed-storefront-backend-harindi.onrender.com/api/ ",
+    baseUrl: "http://localhost:8000/api/",
     prepareHeaders: async (headers) => {
       try {
         // Get token asynchronously

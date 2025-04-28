@@ -1,6 +1,6 @@
-import Hero from "../Hero"
-import Navigation from "../Navigation"
-import Products from "../Products"
+import Hero from "./Components/Hero"
+import Navigation from "../../Navigation"
+import Products from "./Components/Products"
 
 
 
